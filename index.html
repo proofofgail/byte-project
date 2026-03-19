@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — The Byte Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Playfair+Display:ital,wght@0,400;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --crimson: #CC1100;
+    --cream: #F5F2EA;
+    --cream-deep: #F0EDE4;
+    --near-black: #1A1410;
+    --warm-grey: #8C8680;
+    --font-display: 'GFS Didot', Georgia, serif;
+    --font-editorial: 'Playfair Display', Georgia, serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--near-black);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 48px;
+    background: var(--cream);
+    border-bottom: 0.5px solid transparent;
+    transition: border-color 0.3s ease;
+  }
+
+  nav.scrolled {
+    border-color: rgba(26, 20, 16, 0.12);
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--near-black);
+    text-decoration: none;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 9px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--near-black);
+    text-decoration: none;
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active {
+    opacity: 1;
+  }
+
+  .nav-links a.active {
+    color: var(--crimson);
+  }
+
+  /* MAIN */
+  main {
+    padding-top: 120px;
+  }
+
+  /* HERO STATEMENT */
+  .hero {
+    padding: 60px 48px 72px;
+    max-width: 960px;
+  }
+
+  .hero-label {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 8px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    margin-bottom: 48px;
+    display: block;
+  }
+
+  .hero-statement {
+    font-family: var(--font-editorial);
+    font-weight: 400;
+    font-size: clamp(24px, 3vw, 42px);
+    line-height: 1.35;
+    color: var(--near-black);
+    letter-spacing: 0.02em;
+  }
+
+  .hero-statement em {
+    font-style: italic;
+    color: var(--crimson);
+  }
+
+  /* DIVIDER */
+  .rule {
+    width: 100%;
+    height: 0.5px;
+    background: rgba(26, 20, 16, 0.12);
+    margin: 0 48px;
+    width: calc(100% - 96px);
+  }
+
+  /* SECTION */
+  section {
+    padding: 56px 48px;
+  }
+
+  .section-header {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 48px;
+    margin-bottom: 0;
+  }
+
+  .section-label {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 8px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+    padding-top: 4px;
+  }
+
+  /* ABOUT BODY */
+  .about-body {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 48px;
+  }
+
+  .about-text {
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--near-black);
+    opacity: 0.8;
+  }
+
+  .about-text p + p {
+    margin-top: 24px;
+  }
+
+  /* CAPABILITIES */
+  .capabilities-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 48px;
+    padding: 56px 48px;
+    border-top: 0.5px solid rgba(26, 20, 16, 0.12);
+  }
+
+  .capabilities-list {
+    columns: 2;
+    column-gap: 48px;
+    list-style: none;
+  }
+
+  .capabilities-list li {
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 14px;
+    color: var(--near-black);
+    opacity: 0.75;
+    padding: 8px 0;
+    border-bottom: 0.5px solid rgba(26, 20, 16, 0.08);
+    break-inside: avoid;
+    line-height: 1.4;
+  }
+
+  /* APPROACH */
+  .approach {
+    border-top: 0.5px solid rgba(26, 20, 16, 0.12);
+    padding: 56px 48px;
+  }
+
+  .approach-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 48px;
+  }
+
+  .approach-statement {
+    font-family: var(--font-editorial);
+    font-weight: 400;
+    font-size: clamp(18px, 2vw, 26px);
+    line-height: 1.45;
+    color: var(--near-black);
+    letter-spacing: 0.02em;
+    margin-bottom: 40px;
+    grid-column: 2;
+  }
+
+  .approach-item-title {
+    font-family: var(--font-editorial);
+    font-weight: 400;
+    font-size: 15px;
+    color: var(--near-black);
+    margin-bottom: 10px;
+    letter-spacing: 0.02em;
+  }
+
+  .approach-columns {
+    grid-column: 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+
+  .approach-item-title {
+    font-family: var(--font-display);
+    font-size: 15px;
+    color: var(--near-black);
+    margin-bottom: 12px;
+    letter-spacing: 0.03em;
+  }
+
+  .approach-item-body {
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--near-black);
+    opacity: 0.65;
+  }
+
+  /* BYTE PRESS */
+  .press-section {
+    border-top: 0.5px solid rgba(26, 20, 16, 0.12);
+    padding: 56px 48px;
+    background: var(--near-black);
+  }
+
+  .press-section .section-label {
+    color: rgba(245, 242, 234, 0.35);
+  }
+
+  .press-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 48px;
+  }
+
+  .press-title {
+    font-family: var(--font-editorial);
+    font-weight: 400;
+    font-size: clamp(20px, 2.2vw, 30px);
+    color: var(--cream-deep);
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    margin-bottom: 24px;
+  }
+
+  .press-title span {
+    color: var(--crimson);
+  }
+
+  .press-body {
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--cream-deep);
+    opacity: 0.65;
+    max-width: 600px;
+  }
+
+  .press-link {
+    display: inline-block;
+    margin-top: 32px;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 8px;
+    letter-spacing: 0.48em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    text-decoration: none;
+    border-bottom: 0.5px solid var(--crimson);
+    padding-bottom: 4px;
+    transition: opacity 0.2s ease;
+  }
+
+  .press-link:hover { opacity: 0.7; }
+
+  /* CONTACT */
+  .contact-section {
+    padding: 56px 48px;
+    border-top: 0.5px solid rgba(26, 20, 16, 0.12);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 48px;
+  }
+
+  .contact-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 48px;
+  }
+
+  .contact-group-label {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 8px;
+    letter-spacing: 0.48em;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+    margin-bottom: 14px;
+  }
+
+  .contact-group a,
+  .contact-group p {
+    display: block;
+    font-family: var(--font-editorial);
+    font-size: 15px;
+    color: var(--near-black);
+    text-decoration: none;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+  }
+
+  .contact-group a:hover {
+    color: var(--crimson);
+  }
+
+  /* MAILING LIST */
+  .mailing-section {
+    border-top: 0.5px solid rgba(26, 20, 16, 0.12);
+    padding: 56px 48px;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .mailing-statement {
+    font-family: var(--font-editorial);
+    font-weight: 400;
+    font-size: clamp(16px, 1.8vw, 24px);
+    line-height: 1.4;
+    color: var(--near-black);
+    letter-spacing: 0.02em;
+  }
+
+  .mailing-statement em {
+    font-style: italic;
+    color: var(--crimson);
+  }
+
+  .mailing-form {
+    display: flex;
+    gap: 0;
+    margin-top: 28px;
+    max-width: 440px;
+  }
+
+  .mailing-form input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-bottom: 0.5px solid rgba(26, 20, 16, 0.3);
+    padding: 10px 0;
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--near-black);
+    outline: none;
+    letter-spacing: 0.02em;
+  }
+
+  .mailing-form input::placeholder {
+    color: var(--warm-grey);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+
+  .mailing-form button {
+    background: transparent;
+    border: none;
+    border-bottom: 0.5px solid rgba(26, 20, 16, 0.3);
+    padding: 10px 0 10px 20px;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 8px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+
+  .mailing-form button:hover { opacity: 0.6; }
+
+  /* FOOTER */
+  footer {
+    border-top: 0.5px solid rgba(26, 20, 16, 0.12);
+    padding: 32px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--near-black);
+    text-decoration: none;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 8px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--near-black);
+    text-decoration: none;
+    opacity: 0.45;
+    transition: opacity 0.2s ease;
+  }
+
+  .footer-links a:hover { opacity: 0.9; }
+
+  .footer-copy {
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 10px;
+    color: var(--warm-grey);
+    letter-spacing: 0.05em;
+  }
+
+  /* FADE IN */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">The Byte<br>Project</a>
+  <ul class="nav-links">
+    <li><a href="#">Work</a></li>
+    <li><a href="#">Portfolio</a></li>
+    <li><a href="#">Journal</a></li>
+    <li><a href="#" class="active">About</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <div class="hero fade-in">
+    <span class="hero-label">About</span>
+    <h1 class="hero-statement">
+      The Byte Project is a curatorial platform at the intersection of <em>art</em> and <em>technology</em>. We commission and develop new work by artists who harness advanced technologies, building a programme of exhibitions, residencies, and public events that expand both the practice and the audience.
+    </h1>
+  </div>
+
+  <div class="rule"></div>
+
+  <!-- ABOUT -->
+  <section class="fade-in">
+    <div class="about-body">
+      <span class="section-label">The platform</span>
+      <div class="about-text">
+        <p>The Byte Project began as a dinner series designed to bring together innovative minds from the arts, technology, and investment sectors. Over shared meals, drinks, and conversation, the series explored consumption, community, and connection — one byte at a time.</p>
+        <p>Since then, The Byte Project has evolved into a curatorial platform dedicated to exploring the intersections of interdisciplinary artistic practices within art and technology. The platform supports artists who harness advanced technologies while expanding the reach and engagement of their audiences through a variety of projects.</p>
+        <p>We curate and develop spaces where radical thought and artistic projects thrive — across physical and digital formats, in London and beyond.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAPABILITIES -->
+  <div class="capabilities-grid fade-in">
+    <span class="section-label">Capabilities</span>
+    <ul class="capabilities-list">
+      <li>Exhibition Making</li>
+      <li>Curatorial Research</li>
+      <li>Artist Commissions</li>
+      <li>Institutional Partnerships</li>
+      <li>Public Programming</li>
+      <li>Academic Collaboration</li>
+      <li>Edition Production</li>
+      <li>Digital Projects</li>
+      <li>Event Series</li>
+      <li>Publication</li>
+    </ul>
+  </div>
+
+  <!-- APPROACH -->
+  <div class="approach fade-in">
+    <div class="approach-grid">
+      <span class="section-label">Approach</span>
+      <div>
+        <p class="approach-statement">Our work begins with the artists — listening, researching, and building the conditions for genuinely new work to emerge at the frontier of art and technology.</p>
+        <div class="approach-columns">
+          <div>
+            <h3 class="approach-item-title">Curatorial experimentation</h3>
+            <p class="approach-item-body">The Byte Project operates as a laboratory. We take risks, test ideas, and work with artists in development — before the work is finished, before the category exists. The programme changes because the field changes.</p>
+          </div>
+          <div>
+            <h3 class="approach-item-title">Institutional reach</h3>
+            <p class="approach-item-body">We build relationships with museums, foundations, and universities to bring the work into institutional contexts — securing support, expanding audiences, and situating digital and technology-based art within the broader cultural conversation.</p>
+          </div>
+          <div>
+            <h3 class="approach-item-title">Community and access</h3>
+            <p class="approach-item-body">We believe art should be an experience, and everyone should benefit. The platform's events and programmes are designed to bring new audiences into contact with ambitious work — not just collectors and institutions, but the wider public.</p>
+          </div>
+          <div>
+            <h3 class="approach-item-title">Long form thinking</h3>
+            <p class="approach-item-body">Through Byte Press, our independent publishing arm, we give commissioned work a permanent form. Publications, editions, and collected writings that outlast any individual exhibition or event and contribute to the field's ongoing discourse.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BYTE PRESS -->
+  <div class="press-section fade-in">
+    <div class="press-grid">
+      <span class="section-label">Byte Press</span>
+      <div>
+        <h2 class="press-title"><span>Byte Press</span> is our independent publishing arm.</h2>
+        <p class="press-body">A publishing house producing a wide range of high-quality special editions and collector-focused works at the intersection of art, technology, and culture. Byte Press transforms books into lasting cultural objects that educate, inspire, and endure — beyond any single exhibition, programme, or moment.</p>
+        <p class="press-body" style="margin-top: 16px;">While rooted in The Byte Project's commissions, Byte Press operates independently — publishing artists, writers, curators, and researchers across the full territory of art and technology.</p>
+        <a href="#" class="press-link">Visit Byte Press</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact-section fade-in">
+    <div class="contact-grid">
+      <span class="section-label">Contact</span>
+      <div class="contact-body">
+        <div class="contact-group">
+          <p class="contact-group-label">Studio</p>
+          <p>London, UK</p>
+        </div>
+        <div class="contact-group">
+          <p class="contact-group-label">General</p>
+          <a href="mailto:hello@thebyteproject.com">hello@thebyteproject.com</a>
+        </div>
+        <div class="contact-group">
+          <p class="contact-group-label">Follow</p>
+          <a href="#">Instagram</a>
+          <a href="#">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAILING -->
+  <div class="mailing-section fade-in">
+    <span class="section-label">Newsletter</span>
+    <div>
+      <p class="mailing-statement">Join our mailing list for updates on <em>commissions</em>, <em>events</em>, and new releases from <em>Byte Press</em>.</p>
+      <form class="mailing-form" onsubmit="return false;">
+        <input type="email" placeholder="Your email">
+        <button type="submit">Sign up</button>
+      </form>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-logo">The Byte<br>Project</a>
+  <ul class="footer-links">
+    <li><a href="#">Work</a></li>
+    <li><a href="#">Portfolio</a></li>
+    <li><a href="#">Journal</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Press</a></li>
+  </ul>
+  <span class="footer-copy">© The Byte Project 2026</span>
+</footer>
+
+<script>
+  // Nav scroll state
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // Fade in on scroll
+  const faders = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  faders.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
