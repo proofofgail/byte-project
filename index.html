@@ -32,7 +32,8 @@
     "url": "https://byte-project.com/",
     "logo": "https://byte-project.com/og-image.png",
     "description": "A curatorial publishing imprint producing livres d’artiste at the intersection of digital art, code and print.",
-    "parentOrganization": { "@type": "Organization", "name": "Poros Press" }
+    "email": "hello@byte-project.com",
+    "sameAs": ["https://www.instagram.com/thebyteproject/", "https://x.com/thebyteproject"]
   }
   </script>
 
@@ -59,6 +60,19 @@
     .signup input:focus-visible, .signup button:focus-visible { outline: 1px solid #e8e4da; }
     .thanks { text-align: center; padding: 10px 0; border-bottom: 1px solid #4a463e; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 17px; letter-spacing: 0.1em; color: #e8e4da; }
     .thanks span { letter-spacing: 0.18em; margin-right: 2px; }
+    .foot { width: min(960px, 100%); margin-top: 56px; padding-top: 18px; border-top: 1px solid #2c2a26; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 10px 32px; cursor: default; font-family: 'Playfair Display', Georgia, serif; font-size: 12px; letter-spacing: 0.14em; line-height: 1.9; }
+    .foot p { margin: 0; }
+    .foot .label { color: #6e6a60; margin-right: 10px; }
+    .foot p a + a { margin-left: 18px; }
+    .foot a { color: #e8e4da; text-decoration: none; white-space: nowrap; display: inline-block; }
+    .foot a:hover, .foot a:focus-visible { color: #ffffff; text-decoration: underline; text-underline-offset: 3px; }
+    .foot a:focus-visible { outline: 1px solid #e8e4da; outline-offset: 2px; }
+    .foot .copy { color: #e8e4da; text-align: right; }
+    @media (max-width: 640px) { .foot { flex-direction: column; gap: 8px; margin-top: 44px; } .foot .copy { text-align: left; } .foot p a + a { margin-left: 0; margin-top: 4px; } }
+    .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .consent { margin: 12px 0 0; text-align: center; font-family: 'Playfair Display', Georgia, serif; font-size: 11px; letter-spacing: 0.1em; line-height: 1.7; color: #6e6a60; }
+    .consent a { color: #8a857a; text-underline-offset: 3px; }
+    .consent a:hover, .consent a:focus-visible { color: #e8e4da; }
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
     .sweeps polyline { fill: none; stroke-width: 3; stroke-linejoin: miter; stroke-linecap: round; stroke-dasharray: 35 165; stroke-dashoffset: 35; }
     .sparkles circle { opacity: 0; transform-origin: center; transform-box: fill-box; }
@@ -206,14 +220,21 @@
     </header>
 
     <section class="signup" id="signup" aria-label="Mailing list">
-      <form id="form" action="https://buttondown.com/api/emails/embed-subscribe/thebyteproject" method="post">
-        <input type="hidden" name="embed" value="1">
+      <form id="form" action="https://script.google.com/macros/s/AKfycbxEoC7-Z3IaPSDcgXZwr8u7CJrxTgPDMeqyt6ZArOEC2I_OQ9VCzS2H_-c03SYaJfWrRw/exec" method="post">
+        <div class="hp" aria-hidden="true"><label for="website">Leave this empty</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
         <label for="email" class="sr-only">Email address</label>
         <input id="email" name="email" type="email" placeholder="email address" autocomplete="email" required>
         <button type="submit" id="btn">notify me</button>
       </form>
-      <div class="thanks" id="thanks" role="status" hidden><span>&#9702;</span> check your inbox to confirm.</div>
+      <div class="thanks" id="thanks" role="status" hidden><span>&#9702;</span> thank you, you’re on the list.</div>
+      <p class="consent">News, projects and releases from The Byte Project. Unsubscribe anytime. <a href="/privacy.html">Privacy</a></p>
     </section>
+
+    <footer class="foot">
+      <p><span class="label">to reach us</span> <a href="mailto:hello@byte-project.com">hello@byte-project.com</a></p>
+      <p><span class="label">follow us</span> <a href="https://www.instagram.com/thebyteproject/" rel="me noopener" target="_blank">Instagram @thebyteproject</a> <a href="https://x.com/thebyteproject" rel="me noopener" target="_blank">X @thebyteproject</a></p>
+      <p class="copy">The Byte Project &copy; 2026</p>
+    </footer>
   </main>
 
   <script>
@@ -279,32 +300,30 @@
     }
 
     page.addEventListener('click', function (e) {
-      if (reduced || e.target.closest('#signup')) return;
+      if (reduced || e.target.closest('#signup, .foot')) return;
       var r = svg.getBoundingClientRect();
       fire({ x: 35 + (e.clientX - r.left) / r.width * 1120, y: 30 + (e.clientY - r.top) / r.height * 600 });
     });
 
-    // Mailing list: submit quietly in the background, then show the confirmation line.
+    // Mailing list: send the address to the Google Sheet in the background, then say thank you.
     var form = document.getElementById('form'), input = document.getElementById('email');
     var btn = document.getElementById('btn'), thanks = document.getElementById('thanks');
-    var frame = document.createElement('iframe');
-    frame.name = 'buttondown_target'; frame.setAttribute('aria-hidden', 'true'); frame.tabIndex = -1;
-    frame.style.cssText = 'position:absolute;width:0;height:0;border:0;opacity:0;pointer-events:none';
-    document.getElementById('signup').appendChild(frame);
-    form.target = 'buttondown_target';
+    var hp = document.getElementById('website');
     form.noValidate = true;
     form.addEventListener('submit', function (e) {
+      e.preventDefault();
       var v = input.value.trim();
-      if (!v || v.indexOf('@') < 0) {
-        e.preventDefault();
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) {
         input.classList.add('invalid');
         setTimeout(function () { input.classList.remove('invalid'); }, 1500);
         return;
       }
-      setTimeout(function () {
-        btn.disabled = true; btn.textContent = 'sending…';
-        setTimeout(function () { form.hidden = true; thanks.hidden = false; }, 400);
-      }, 0);
+      btn.disabled = true; btn.textContent = 'sending…';
+      var done = function () { form.hidden = true; thanks.hidden = false; };
+      fetch(form.action, { method: 'POST', mode: 'no-cors', body: new URLSearchParams({ email: v, website: hp.value }) })
+        .then(done, function () {
+          btn.disabled = false; btn.textContent = 'try again';
+        });
     });
   })();
   </script>
